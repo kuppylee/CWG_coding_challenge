@@ -7,8 +7,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomeViewController: UIViewController {
 
+    @IBOutlet weak var weatherImage: UIImageView!
+    @IBOutlet weak var weatherTableView: UITableView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -17,3 +21,6 @@ class ViewController: UIViewController {
 
 }
 
+class WeatherTableViewCell : UITableViewCell {
+    
+}
