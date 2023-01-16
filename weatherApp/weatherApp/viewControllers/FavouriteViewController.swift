@@ -38,7 +38,18 @@ class FavouriteViewController: UIViewController, UITableViewDataSource, UITableV
         cell.selectionStyle = .none
         return cell
     }
-
+    
+    // Delete the object from the Realm database
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let weatherToDelete = realm.objects(FavouriteWeather.self)
+            try! realm.write {
+                realm.delete(weatherToDelete[indexPath.row])
+            }
+            // Delete the row from the table view
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 
 }
 

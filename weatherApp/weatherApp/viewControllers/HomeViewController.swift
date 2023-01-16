@@ -66,7 +66,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             let currentDate = formatter.string(from: Date())
-            print(currentDate)
             let favouriteWeather = FavouriteWeather()
             favouriteWeather.cityName = currentCity
             favouriteWeather.lastUpdated = currentDate
@@ -77,11 +76,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         } else {
             likeBTN.setImage(UIImage(systemName: "heart"), for: .normal)
-            //TODO: Remove from realm
-            let weatherToDelete = realm.objects(FavouriteWeather.self).filter("cityName =  '\(currentCity)'")
-                try! realm.write {
-                    realm.delete(weatherToDelete)
-                }
         }
     }
     
