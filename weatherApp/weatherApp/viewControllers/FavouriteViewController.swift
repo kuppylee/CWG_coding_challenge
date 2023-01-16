@@ -45,12 +45,4 @@ class FavouriteViewController: UIViewController, UITableViewDataSource, UITableV
 
 }
 
-class FavouriteTableViewCell : UITableViewCell {
-    
-    
-    @IBOutlet weak var cityName: UILabel!
-    @IBOutlet weak var favouriteTempLabel: UILabel!
-    @IBOutlet weak var favWeatherDescription: UILabel!
-    @IBOutlet weak var lastUpdated: UILabel!
-    
-}
+
