@@ -20,7 +20,6 @@ class DataLoader {
         if let currentWeatherData = data {
           do{
             let json = try JSONDecoder().decode(WeatherMain.self, from: currentWeatherData)
-            print(json,"THIS IS THE JSON")
             completionHandler(json)
           }
           catch{
@@ -38,7 +37,6 @@ class DataLoader {
         if let forecastedWeatherData = data {
           do{
             let json = try JSONDecoder().decode(ForecastWeather.self, from: forecastedWeatherData)
-            print(json,"THIS IS THE FORECAST JSON")
             completionHandler(json)
           }
           catch{

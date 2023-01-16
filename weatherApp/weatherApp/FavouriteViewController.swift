@@ -1,0 +1,56 @@
+//
+//  FavouriteViewController.swift
+//  weatherApp
+//
+//  Created by Kuppylee on 15/01/2023.
+//
+
+import UIKit
+import RealmSwift
+
+class FavouriteViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+   
+    @IBOutlet weak var favouriteTableView: UITableView!
+    let realm = try! Realm()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        favouriteTableView.dataSource = self
+        favouriteTableView.delegate = self
+
+        // Do any additional setup after loading the view.
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let weatherInfomation = realm.objects(FavouriteWeather.self)
+        return weatherInfomation.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = favouriteTableView.dequeueReusableCell(withIdentifier: "FavouriteTableViewCell", for: indexPath) as! FavouriteTableViewCell
+        
+        let weatherInfomation = realm.objects(FavouriteWeather.self)
+//        print(weatherInfomation)
+        
+        cell.cityName.text = weatherInfomation[indexPath.row].cityName
+        cell.favWeatherDescription.text = weatherInfomation[indexPath.row].favouriteWeatherDescription
+        cell.favouriteTempLabel.text = weatherInfomation[indexPath.row].favouriteTemp
+        cell.lastUpdated.text = weatherInfomation[indexPath.row].lastUpdated
+
+        cell.selectionStyle = .none
+        
+        return cell
+    }
+
+
+}
+
+class FavouriteTableViewCell : UITableViewCell {
+    
+    
+    @IBOutlet weak var cityName: UILabel!
+    @IBOutlet weak var favouriteTempLabel: UILabel!
+    @IBOutlet weak var favWeatherDescription: UILabel!
+    @IBOutlet weak var lastUpdated: UILabel!
+    
+}

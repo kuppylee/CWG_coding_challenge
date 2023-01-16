@@ -34,9 +34,9 @@ enum Appstyle {
     case.clouds:
       return UIImage(named: "sea_cloudy")!
     case.sunny:
-      return UIImage(named: "sea_sunnypng")!
+      return UIImage(named: "sea_sunny")!
     case.others:
-      return UIImage(named: "sea_sunnypng")!
+        return UIImage(named: "sea_sunny")!
     }
   }
   

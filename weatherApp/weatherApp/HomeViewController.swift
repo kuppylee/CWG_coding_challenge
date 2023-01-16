@@ -6,8 +6,20 @@
 //
 
 import UIKit
+import CoreLocation
+import RealmSwift
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate , CLLocationManagerDelegate{
+    
+    var result: WeatherMain?
+    var currentWeatherDataVm = CurrentWeatherViewModel()
+    var forecastedWeatherVM = ForecastedWeatherViewModel()
+    var locationManager: CLLocationManager!
+    let geocoder = CLGeocoder()
+    let realm = try! Realm()
+    var currentCity : String = "Lagos"
+
+
     
 
     @IBOutlet weak var weatherImage: UIImageView!
@@ -19,38 +31,92 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     @IBOutlet weak var maxWeatherValue: UILabel!
     @IBOutlet weak var currentWeatherValue: UILabel!
     
+    @IBOutlet weak var currentTempView: UIView!
+    @IBOutlet var superView: UIView!
+    
+    @IBOutlet var likeBTN: UIButton!
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherTableView.dataSource = self
         weatherTableView.delegate = self
+        displayCurrentWeather()
+        displayForcastedWeather()
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+
         // Do any additional setup after loading the view.
+       
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+    lazy var emptyWeatherLabel: UILabel = {
+      let label = UILabel()
+      label.text = ""
+      label.center = CGPoint(x: 160, y: 285)
+      label.translatesAutoresizingMaskIntoConstraints = false
+      label.numberOfLines = 1
+      return label
+    }()
+    
+    
+    
+    
+    
+    
+    @IBAction func likeTapped(_ sender: UIButton) {
+        
+        if likeBTN.currentImage == UIImage(systemName: "heart") {
+            likeBTN.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            //TODO: Add to realm
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            let currentDate = formatter.string(from: Date())
+            print(currentDate)
+            let favouriteWeather = FavouriteWeather()
+            favouriteWeather.cityName = currentCity
+            favouriteWeather.lastUpdated = currentDate
+            favouriteWeather.favouriteTemp = currentWeatherValue.text!
+            favouriteWeather.favouriteWeatherDescription = currentWeatherDescriptionLabel.text!
+            try! realm.write {
+                realm.add(favouriteWeather)
+            }
+        } else {
+            likeBTN.setImage(UIImage(systemName: "heart"), for: .normal)
+            //TODO: Remove from realm
+            let weatherToDelete = realm.objects(FavouriteWeather.self).filter("cityName =  '\(currentCity)'")
+                try! realm.write {
+                    realm.delete(weatherToDelete)
+                }
+        }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = weatherTableView.dequeueReusableCell(withIdentifier: "WeatherTableViewCell", for: indexPath) as! WeatherTableViewCell
-        cell.tempLabel.text = "25º"
-        cell.day.text = "Monday"
-//        cell.weatherIcon
-        
-        return cell
-        
-    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            guard let currentLocation = locations.last else { return }
+            geocoder.reverseGeocodeLocation(currentLocation) { (placemarks, error) in
+                if let error = error {
+                    print("Error getting current city name: \(error)")
+                    return
+                }
+                guard let placemark = placemarks?.first else { return }
+                guard let city = placemark.locality else { return }
+                self.currentCity = city
+                print("Current city name: \(city)")
+            }
+        }
+   
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 62.0;
+    func getDate(_ date: Date?) -> String{
+      guard let inputDate = date else {
+        return ""
+      }
+      let formatter = DateFormatter()
+      formatter.dateFormat = "EEEE"
+      return formatter.string(from: inputDate)
     }
-
 }
 
-class WeatherTableViewCell : UITableViewCell {
-    
-    @IBOutlet weak var tempLabel: UILabel!
-    @IBOutlet weak var weatherIcon: UIImageView!
-    @IBOutlet weak var day: UILabel!
-    
-}
+
