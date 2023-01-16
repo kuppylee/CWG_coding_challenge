@@ -16,10 +16,9 @@ extension HomeViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = weatherTableView.dequeueReusableCell(withIdentifier: "WeatherTableViewCell", for: indexPath) as! WeatherTableViewCell
-        
+
         if (forecastedWeatherVM.forecastedWeatherData.isEmpty){
-            view.addSubview(emptyWeatherLabel)
-            
+            weatherTableView.setEmptyMessage("no data")
         }else {
             let forecastedWeatherVM = forecastedWeatherVM.cellForRowsAt(indexPath: indexPath)[indexPath.row]
             cell.day.text = getDate(Date(timeIntervalSince1970: Double(forecastedWeatherVM.date)))
@@ -53,6 +52,8 @@ extension HomeViewController {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 62.0;
     }
+    
+    
     
     
 //    Function to display the current weather
@@ -100,5 +101,27 @@ extension HomeViewController {
                 weatherTableView.reloadData()
             }
         }
+    }
+}
+
+
+extension UITableView {
+
+    func setEmptyMessage(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bounds.size.width, height: self.bounds.size.height))
+        messageLabel.text = message
+        messageLabel.textColor = .black
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .center
+//        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+        messageLabel.sizeToFit()
+
+        self.backgroundView = messageLabel
+        self.separatorStyle = .none
+    }
+
+    func restore() {
+        self.backgroundView = nil
+        self.separatorStyle = .singleLine
     }
 }

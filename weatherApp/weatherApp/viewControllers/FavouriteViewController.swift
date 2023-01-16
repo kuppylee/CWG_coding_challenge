@@ -30,15 +30,12 @@ class FavouriteViewController: UIViewController, UITableViewDataSource, UITableV
         let cell = favouriteTableView.dequeueReusableCell(withIdentifier: "FavouriteTableViewCell", for: indexPath) as! FavouriteTableViewCell
         
         let weatherInfomation = realm.objects(FavouriteWeather.self)
-//        print(weatherInfomation)
-        
         cell.cityName.text = weatherInfomation[indexPath.row].cityName
         cell.favWeatherDescription.text = weatherInfomation[indexPath.row].favouriteWeatherDescription
         cell.favouriteTempLabel.text = weatherInfomation[indexPath.row].favouriteTemp
         cell.lastUpdated.text = weatherInfomation[indexPath.row].lastUpdated
 
         cell.selectionStyle = .none
-        
         return cell
     }
 

@@ -47,10 +47,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-
-        // Do any additional setup after loading the view.
-       
+        locationManager.startUpdatingLocation()       
     }
     
     lazy var emptyWeatherLabel: UILabel = {
@@ -62,13 +59,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
       return label
     }()
     
-    
-    
-    
-    
-    
     @IBAction func likeTapped(_ sender: UIButton) {
-        
         if likeBTN.currentImage == UIImage(systemName: "heart") {
             likeBTN.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             //TODO: Add to realm
@@ -94,6 +85,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
     
+//    This function is to get the current location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
             guard let currentLocation = locations.last else { return }
             geocoder.reverseGeocodeLocation(currentLocation) { (placemarks, error) in
@@ -108,7 +100,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
         }
    
-    
+//    This function is to format the date from the API call
     func getDate(_ date: Date?) -> String{
       guard let inputDate = date else {
         return ""

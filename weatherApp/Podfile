@@ -17,5 +17,6 @@ target 'weatherApp' do
   end
 
   pod 'RealmSwift', '~>10'
+  pod 'ProgressHUD'
 
 end
