@@ -59,35 +59,35 @@ extension HomeViewController {
 //    Function to display the current weather
     func displayCurrentWeather(){
         currentWeatherDataVm.getCurrentWeather(currentCity) {
-            DispatchQueue.main.async { [self] in
-                if let minTemp = self.currentWeatherDataVm.minimumTemp,
-                   let maxTemp = self.currentWeatherDataVm.maximumTemp,
-                   let currentTemp = self.currentWeatherDataVm.currentTemp {
-                    self.minWeatherValue.text = "\(minTemp - 273)º"
-                    self.maxWeatherValue.text = "\(maxTemp - 273)º"
-                    self.currentWeatherValue.text = "\(currentTemp - 273)º"
-                    self.currentWeatherLabel.text = "\(currentTemp - 273)º"
-                    self.currentWeatherDescriptionLabel.text = currentWeatherDataVm.currentTempDescription?.uppercased()
+            DispatchQueue.main.async { [ weak self] in
+                if let minTemp = self?.currentWeatherDataVm.minimumTemp,
+                   let maxTemp = self?.currentWeatherDataVm.maximumTemp,
+                   let currentTemp = self?.currentWeatherDataVm.currentTemp {
+                    self?.minWeatherValue.text = "\(minTemp - 273)º"
+                    self?.maxWeatherValue.text = "\(maxTemp - 273)º"
+                    self?.currentWeatherValue.text = "\(currentTemp - 273)º"
+                    self?.currentWeatherLabel.text = "\(currentTemp - 273)º"
+                    self?.currentWeatherDescriptionLabel.text = self?.currentWeatherDataVm.currentTempDescription?.uppercased()
                 }
                 
-                switch currentWeatherDescriptionLabel.text?.uppercased() {
+                switch self?.currentWeatherDescriptionLabel.text?.uppercased() {
                 
                 case "CLOUDY","CLOUDS":
-                    weatherImage.image = Appstyle.clouds.images
-                    currentTempView.backgroundColor = Appstyle.clouds.color
-                    superView.backgroundColor = Appstyle.clouds.color
+                    self?.weatherImage.image = Appstyle.clouds.images
+                    self?.currentTempView.backgroundColor = Appstyle.clouds.color
+                    self?.superView.backgroundColor = Appstyle.clouds.color
                 case "RAIN":
-                    weatherImage.image = Appstyle.rainy.images
-                    currentTempView.backgroundColor = Appstyle.rainy.color
-                    superView.backgroundColor = Appstyle.rainy.color
+                    self?.weatherImage.image = Appstyle.rainy.images
+                    self?.currentTempView.backgroundColor = Appstyle.rainy.color
+                    self?.superView.backgroundColor = Appstyle.rainy.color
                 case "SUNNY":
-                    weatherImage.image = Appstyle.sunny.images
-                    currentTempView.backgroundColor = Appstyle.sunny.color
-                    superView.backgroundColor = Appstyle.sunny.color
+                    self?.weatherImage.image = Appstyle.sunny.images
+                    self?.currentTempView.backgroundColor = Appstyle.sunny.color
+                    self?.superView.backgroundColor = Appstyle.sunny.color
                 default:
-                    weatherImage.image = Appstyle.others.images
-                    currentTempView.backgroundColor = Appstyle.others.color
-                    superView.backgroundColor = Appstyle.others.color
+                    self?.weatherImage.image = Appstyle.others.images
+                    self?.currentTempView.backgroundColor = Appstyle.others.color
+                    self?.superView.backgroundColor = Appstyle.others.color
                 }
             }
         }
@@ -96,9 +96,9 @@ extension HomeViewController {
 //    Function to display the forcasted weather
     func displayForcastedWeather(){
         forecastedWeatherVM.getForcastedWeather(currentCity) {
-            DispatchQueue.main.async { [self] in
-                weatherTableView.separatorStyle = .none
-                weatherTableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.weatherTableView.separatorStyle = .none
+                self?.weatherTableView.reloadData()
             }
         }
     }

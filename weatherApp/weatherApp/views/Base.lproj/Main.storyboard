@@ -387,6 +387,7 @@
                             <constraint firstItem="Udt-nv-aNz" firstAttribute="leading" secondItem="Teg-oF-PJV" secondAttribute="leading" id="yn9-5f-Gcg"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="3nt-Vc-Luh"/>
                     <connections>
                         <outlet property="favouriteTableView" destination="9J1-Pp-uhM" id="EEh-Rp-SMK"/>
                     </connections>
