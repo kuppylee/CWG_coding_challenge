@@ -18,12 +18,12 @@ class CurrentWeatherViewModel {
     
     
     func getCurrentWeather(_ city : String, completion : @escaping() -> Void ){
-        dataLoader.getCurrentWeatherData(for: city) {[self] currentWeather in
-            currentWeatherResult = currentWeather
-            currentTemp = Int((currentWeatherResult?.main.temp)!)
-            maximumTemp = Int((currentWeatherResult?.main.temp_max)!)
-            minimumTemp = Int((currentWeatherResult?.main.temp_min)!)
-            currentTempDescription = currentWeatherResult?.weather[0].main ?? ""
+        dataLoader.getCurrentWeatherData(for: city) {[weak self] currentWeather in
+            self?.currentWeatherResult = currentWeather
+            self?.currentTemp = Int((self?.currentWeatherResult?.main.temp)!)
+            self?.maximumTemp = Int((self?.currentWeatherResult?.main.temp_max)!)
+            self?.minimumTemp = Int((self?.currentWeatherResult?.main.temp_min)!)
+            self?.currentTempDescription = self?.currentWeatherResult?.weather[0].main ?? ""
             completion()
         }
     }

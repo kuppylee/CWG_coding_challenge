@@ -50,6 +50,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         locationManager.startUpdatingLocation()       
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        likeBTN.setImage( UIImage(systemName: "heart"), for: .normal)
+    }
+    
     lazy var emptyWeatherLabel: UILabel = {
       let label = UILabel()
       label.text = ""

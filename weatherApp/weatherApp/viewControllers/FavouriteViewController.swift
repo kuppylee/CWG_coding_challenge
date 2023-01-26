@@ -17,7 +17,6 @@ class FavouriteViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         favouriteTableView.dataSource = self
         favouriteTableView.delegate = self
-
         // Do any additional setup after loading the view.
     }
     
