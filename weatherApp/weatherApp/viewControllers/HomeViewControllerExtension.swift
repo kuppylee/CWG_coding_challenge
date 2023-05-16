@@ -97,8 +97,10 @@ extension HomeViewController {
     func displayForcastedWeather(){
         forecastedWeatherVM.getForcastedWeather(currentCity) {
             DispatchQueue.main.async { [weak self] in
-                self?.weatherTableView.separatorStyle = .none
-                self?.weatherTableView.reloadData()
+                if let weakSelf = self {
+                    self?.weatherTableView.separatorStyle = .none
+                    self?.weatherTableView.reloadData()
+                }
             }
         }
     }
